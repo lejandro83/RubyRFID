@@ -17,6 +17,3 @@ unless ActiveRecord::Base.connection.tables.include? 'cards'
     end
   end
 end
-
-class Card < ActiveRecord::Base
-end
