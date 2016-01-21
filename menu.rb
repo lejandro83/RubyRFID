@@ -18,6 +18,10 @@ case app_status.chomp
   when "1"
     BackOffice.add_registry
   when "2"
+    BackOffice.add_founds
+  when "3"
+    BackOffice.pay_toll
+  when "4"
     BackOffice.change_card_id
   else
     p 'Bye!'

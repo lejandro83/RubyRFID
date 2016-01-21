@@ -3,6 +3,7 @@ class BackOffice
   def self.add_registry
     params = {}
     # Read new card
+    puts "Please swipe new card."
     params[:card_id] = $port.scan
     # Verify if exist
     card = Card.find_by(card_id: params[:card_id])
@@ -23,26 +24,54 @@ class BackOffice
 
   def self.change_card_id
     params = {}
-
     puts "Name of card holder:"
-    user_name = gets.chomp
-    card = Card.find_by(user_name: user_name)
+    params[:user_name] = gets.chomp
+    card = Card.find_by(user_name: params[:user_name])
     if card
-      puts "Swipe new card"
-      new_card_id = $port.scan
-      unless Card.exists?(card_id: new_card_id)
-        card.update_attribute(:card_id, new_card_id)
-        puts "Registry updated."
+      puts "Please swipe new card."
+      params[:card_id] = $port.scan
+      unless Card.exists?(card_id: params[:card_id])
+        card.update_attribute(:card_id, params[:card_id])
+        puts "User updated."
       else
         puts "Card is in use."
       end
     else
-      puts "User not found"
+      puts "User not found."
     end
   end
 
-  def verify_balace
+  def self.pay_toll
+    params = {}
+    puts "Please swipe card."
+    params[:card_id] = $port.scan
+    card = Card.find_by(card_id: params[:card_id])
+    if card 
+      if params[:balance] > 10
+        card.update_attribute(:balance, params[:balance] - 10)
+        # $port.open_toll
+        puts "Have a good day."
+      else
+        puts "Not enough money, please make a deposit."
+      end
+    else
+      puts "Card doesn't exist."
+    end
+  end
 
+  def self.add_founds
+    params = {}
+    puts "Please swipe card."
+    params[:card_id] = $port.scan
+    card = Card.find_by(card_id: params[:card_id])
+    if card
+      puts "Amount to add?"
+      params[:balance] = gets.chomp.to_i
+      card.update_attribute(:balance, params[:balance] + card.balance)
+      puts "Amount updated."
+    else
+      puts "Card doesn't exist."
+    end
   end
 
 end

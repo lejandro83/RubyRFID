@@ -13,6 +13,7 @@ class Port
 
   def initialize
     self.device = SerialPort.new(PORT_PATH, BAUD_RATE, DATA_BITS, STOP_BITS, PARITY)
+    # self.device.read_timeout = 100
   end
 
   def scan
@@ -26,6 +27,11 @@ class Port
       end
     end
     return self.strip_uid
+  end
+
+  def open_toll
+     self.device.write('1')
+     # self.device.write(l.sub("\n", "\r"))
   end
 
   def strip_uid
