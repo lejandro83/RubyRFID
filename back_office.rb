@@ -47,9 +47,10 @@ class BackOffice
     params[:card_id] = $port.scan
     card = Card.find_by(card_id: params[:card_id])
     if card 
-      if params[:balance] > 10
-        card.update_attribute(:balance, params[:balance] - 10)
-        # $port.open_toll
+      if card.balance > 10
+        card.update_attribute(:balance, card.balance - 10)
+        $port.open_toll
+        puts "Your balance is: " + card.balance.to_s 
         puts "Have a good day."
       else
         puts "Not enough money, please make a deposit."

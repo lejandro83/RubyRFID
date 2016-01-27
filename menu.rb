@@ -25,6 +25,7 @@ case app_status.chomp
     BackOffice.change_card_id
   else
     p 'Bye!'
+    $port.close_port
 end
 
 

@@ -22,7 +22,6 @@ class Port
       @raw_input = self.device.gets
 
       if @raw_input.include?('UID:')
-        self.device.close
         break
       end
     end
@@ -31,10 +30,13 @@ class Port
 
   def open_toll
      self.device.write('1')
-     # self.device.write(l.sub("\n", "\r"))
   end
 
   def strip_uid
     @raw_input.gsub("\r\n", "").gsub("UID: ", "")
+  end
+
+  def close_port
+    self.device.close
   end
 end
